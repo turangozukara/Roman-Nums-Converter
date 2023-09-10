@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This project converts numbers into Roman numerals
+Resources:
+  RomanNumeralsProject:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-01c647eace872fc02
+      InstanceType: t2.micro
+      KeyName: firstkey
+      SecurityGroups: 
+        - !Ref RomanProjectSG
+      Tags: 
+        - Key: Name
+          Value: Turan-Gozukara
+        - Key: Project
+          Value: Roman-Nums-Project
+      UserData: 
+        Fn::Base64: !Sub |
+            #! /bin/bash
+            sudo dnf update -y
+            sudo dnf install python -y
+            sudo dnf install python3-pip -y
+            sudo pip install Flask
+            sudo dnf install httpd -y
+            cd /var/www/html/
+            sudo chmod -R 777 /var/www/html
+
+
+  RomanProjectSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "This security group allows 22 and 80 ports." # Required
+      GroupName: "Roman-Project-SG"
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
