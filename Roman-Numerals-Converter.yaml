@@ -32,12 +32,16 @@ Resources:
   RomanProjectSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: "This security group allows 22 and 80 ports." # Required
+      GroupDescription: "This security group enables 22, 80 and 8080 ports." # Required
       GroupName: "Roman-Project-SG"
       SecurityGroupIngress: 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 8080
