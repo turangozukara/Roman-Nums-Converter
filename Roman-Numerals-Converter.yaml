@@ -20,11 +20,13 @@ Resources:
             #! /bin/bash
             sudo dnf update -y
             sudo dnf install python -y
-            sudo dnf install python3-pip -y
+            sudo dnf install pip -y
             sudo pip install Flask
-            sudo dnf install httpd -y
-            cd /var/www/html/
-            sudo chmod -R 777 /var/www/html
+            wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/index.html
+            wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/result.html
+            wget https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/roman-numerals-converter-app.py
+            sudo python3 roman-numerals-converter-app.py
+
 
 
   RomanProjectSG:
@@ -38,6 +40,6 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
+          FromPort: 8080
+          ToPort: 8080
           CidrIp: 0.0.0.0/0
