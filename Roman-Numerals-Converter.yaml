@@ -1,34 +1,33 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   This project converts numbers into Roman numerals
+Parameters:
+  LatestAmiId:
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Default: "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 Resources:
   RomanNumeralsProject:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-01c647eace872fc02
+      ImageId: !Ref LatestAmiId
       InstanceType: t2.micro
       KeyName: firstkey
       SecurityGroups: 
         - !Ref RomanProjectSG
       Tags: 
         - Key: Name
-          Value: Turan-Gozukara
-        - Key: Project
-          Value: Roman-Nums-Project
-      UserData: 
+          Value: !Sub Web Server of StackName ${AWS::StackName}
+      UserData:
         Fn::Base64: !Sub |
             #! /bin/bash
-            sudo dnf update -y
-            sudo dnf install python -y
-            sudo dnf install pip -y
-            sudo pip install Flask
+            dnf update -y
+            dnf install python -y
+            dnf install pip -y
+            pip install Flask
             wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/index.html
             wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/result.html
             wget https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/roman-numerals-converter-app.py
             sudo python3 roman-numerals-converter-app.py
-
-
-
   RomanProjectSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -47,3 +46,9 @@ Resources:
           FromPort: 8080
           ToPort: 8080
           CidrIp: 0.0.0.0/0
+Outputs:
+  WebSiteURL:
+    Description: This output gives the URL of EC2
+    Value: !Sub 
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt RomanNumeralsProject.PublicDnsName
