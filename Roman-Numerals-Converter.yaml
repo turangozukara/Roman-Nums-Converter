@@ -19,7 +19,7 @@ Resources:
         - !Ref RomanProjectSG
       Tags: 
         - Key: Name
-          Value: !Sub Web Server of StackName ${AWS::StackName}
+          Value: !Sub Web Server of ${AWS::StackName} Stack
       UserData:
         Fn::Base64: !Sub |
             #! /bin/bash
