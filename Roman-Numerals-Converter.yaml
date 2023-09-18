@@ -8,6 +8,7 @@ Parameters:
   KeyName:
     Description: Enter the name of your Key Pair for SSH connections
     Type: AWS::EC2::KeyPair::KeyName
+    Default: firstkey
 Resources:
   RomanNumeralsProject:
     Type: AWS::EC2::Instance
