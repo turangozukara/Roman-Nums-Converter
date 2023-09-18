@@ -27,10 +27,11 @@ Resources:
             dnf install python -y
             dnf install pip -y
             pip install Flask
+            cd /home/ec2-user
             wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/index.html
             wget -P templates https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/templates/result.html
             wget https://raw.githubusercontent.com/turangozukara/Roman-Nums-Converter/main/roman-numerals-converter-app.py
-            sudo python3 roman-numerals-converter-app.py
+            python3 roman-numerals-converter-app.py
   RomanProjectSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
